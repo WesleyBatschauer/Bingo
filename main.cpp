@@ -20,7 +20,7 @@ void matriz(int cartela[][tam]){///CRIAÇÃO DA MATRIZ
     }
 }
 
-void imprime(int cartela[][tam]){///IMPRESSÃO DA MATRIZ
+void imprime(int cartela[][tam]){///IMPREçÃO DA MATRIZ
     for(int i=0;i<tam;i++){
         for(int j=0;j<tam;j++){
             cout<<cartela[i][j]<<"\t";
