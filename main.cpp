@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void matriz(int cartela[][tam]){///CRIA«√O DA MATRIZ
+void matriz(int cartela[][tam]){///CRIA√á√ÉO DA MATRIZ
     int intervalo=0;
     for(int i=0;i<tam;i++){
         for(int j=0;j<tam;j++){
@@ -20,7 +20,7 @@ void matriz(int cartela[][tam]){///CRIA«√O DA MATRIZ
     }
 }
 
-void imprime(int cartela[][tam]){///IMPRE«√O DA MATRIZ
+void imprime(int cartela[][tam]){///IMPRESS√ÉO DA MATRIZ
     for(int i=0;i<tam;i++){
         for(int j=0;j<tam;j++){
             cout<<cartela[i][j]<<"\t";
