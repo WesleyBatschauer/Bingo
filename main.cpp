@@ -10,6 +10,13 @@ using namespace std;
 
 void ordena(int cartela[][TAM],int i);///PROTÓTIPO DE ORDENAÇÃO DA MATRIZ
 
+string nomes(int i){///ENTRADA DOS NOMES
+    string nome;
+    cout<<"Digite o nome do "<<i<<"º jogador: ";
+    cin>>nome;
+    return nome;
+}
+
 void matriz(int cartela[][TAM]){///CRIAÇÃO DA MATRIZ
     int intervalo=0;//valor inicial de cada linha
     bool repetido;//verdadeiro se valor já foi sorteado para posição anterior
@@ -52,22 +59,46 @@ void ordena(int cartela[][TAM],int i){///ORDENAÇÃO DA MATRIZ
     }
 }
 
-void imprime(int cartela[][TAM]){///IMPRESSÃO DA MATRIZ
+void imprime(int cartela[][TAM],string nome){///IMPRESSÃO DA MATRIZ
+    cout<<nome<<endl;
     for(int i=0;i<TAM;i++){
         for(int j=0;j<TAM;j++){
             cout<<cartela[i][j]<<"\t";
         }
         cout<<endl;
     }
+    cout<<endl;
 }
 
 int main()
 {
     setlocale(LC_ALL,"Portuguese");
     srand(time(NULL));
-    int cartela[TAM][TAM]={};
-    matriz(cartela);
-    imprime(cartela);
+
+    int cartela1[TAM][TAM]={},
+    cartela2[TAM][TAM]={},
+    cartela3[TAM][TAM]={},
+    cartela4[TAM][TAM]={},
+    cartela5[TAM][TAM]={};
+    string nome1=nomes(1);
+    string nome2=nomes(2);
+    string nome3=nomes(3);
+    string nome4=nomes(4);
+    string nome5=nomes(5);
+
+    system ("cls");
+
+    matriz(cartela1);
+    matriz(cartela2);
+    matriz(cartela3);
+    matriz(cartela4);
+    matriz(cartela5);
+
+    imprime(cartela1,nome1);
+    imprime(cartela2,nome2);
+    imprime(cartela3,nome3);
+    imprime(cartela4,nome4);
+    imprime(cartela5,nome5);
 
     return 0;
 }
