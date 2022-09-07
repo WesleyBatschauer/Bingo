@@ -3,10 +3,18 @@
 #include <locale.h>
 #include <time.h>
 #include <windows.h>
+#include <string.h>
 
+#define BLUE  1
+#define BRIGHTWHITE  15
 #define TAM 5
+#define SOR 75
 
 using namespace std;
+
+void textcolor (int forecolor) {
+	SetConsoleTextAttribute (GetStdHandle(STD_OUTPUT_HANDLE), (WORD) (forecolor));
+}
 
 void ordena(int cartela[][TAM],int i);///PROTÓTIPO DE ORDENAÇÃO DA MATRIZ
 
@@ -59,16 +67,69 @@ void ordena(int cartela[][TAM],int i){///ORDENAÇÃO DA MATRIZ
     }
 }
 
-void imprime(int cartela[][TAM],string nome){///IMPRESSÃO DA MATRIZ
-    cout<<nome<<endl;
-    for(int i=0;i<TAM;i++){
+void sorteio(int num_sor[SOR], int i){///Sorteia o número;
+    bool repetido;//verdadeiro se valor já foi sorteado para posição anterior
+        num_sor[i]=1+rand()%75;
+        if(i>0){
+            do{
+                repetido=false;
+                int i_ant=0;//contadora dos índices anteriores ao atual
+                while(i_ant<i&&repetido==false){
+                    if(num_sor[i]==num_sor[i_ant]){
+                        repetido=true;
+                        num_sor[i]=1+rand()%75;
+                    }
+                    i_ant++;
+                }
+            }
+            while(repetido==true);
+        }
+}
+
+int confere(int cartela[][TAM], int i, int num_sor[SOR]){
+    int ponto=0, cor;
+    for(int k=0;k<TAM;k++){
         for(int j=0;j<TAM;j++){
-            cout<<cartela[i][j]<<"\t";
+            cor=0;
+            for(int l=0;l<i;l++){
+                if(cartela[k][j]==num_sor[l]){
+                    cor++;
+                    ponto++;
+                }
+            }
+            if(cor==1){
+                textcolor(1);
+                cout<<cartela[k][j]<<"\t";
+            }
+            else{
+                textcolor(15);
+                cout<<cartela[k][j]<<"\t";
+            }
         }
         cout<<endl;
     }
+    cout<<endl<<endl;
+    textcolor(15);
+    return ponto;
+}
+
+void imprime_sor(int num_sor[SOR],int i){///IMPRESSÃO DOS NUMEROS SORTEADOS
+    int j,k,key;
+    for(j = 1; j < i; j++) {
+        key = num_sor[j];
+        k = j - 1;
+        while(k >= 0 && num_sor[k] > key) {
+            num_sor[k + 1] = num_sor[k];
+            k = k - 1;
+        }
+        num_sor[k + 1] = key;
+    }
+    for(k=0;k<i;k++){
+        cout<<num_sor[k]<<"\t";
+    }
     cout<<endl;
 }
+
 
 int main()
 {
@@ -79,7 +140,11 @@ int main()
     cartela2[TAM][TAM]={},
     cartela3[TAM][TAM]={},
     cartela4[TAM][TAM]={},
-    cartela5[TAM][TAM]={};
+    cartela5[TAM][TAM]={},
+    num_sor[SOR]={};
+    int cont=6, i=0;
+    char inicio;
+    bool vencido=false;
     string nome1=nomes(1);
     string nome2=nomes(2);
     string nome3=nomes(3);
@@ -94,11 +159,40 @@ int main()
     matriz(cartela4);
     matriz(cartela5);
 
-    imprime(cartela1,nome1);
-    imprime(cartela2,nome2);
-    imprime(cartela3,nome3);
-    imprime(cartela4,nome4);
-    imprime(cartela5,nome5);
+    do{
+        cout<<"Digite S para sortear\n";
+        cin>>inicio;
+        system ("cls");
+        if(inicio=='s'||inicio=='S'){
+            sorteio(num_sor,i);
+            if(confere(cartela1,i,num_sor)==25){
+                cout<<"\n"<<nome1<<" é o vencedor"<<"\n";
+                vencido=true;
+            }
+            if(confere(cartela2,i,num_sor)==25){
+                cout<<"\n"<<nome2<<" é o vencedor"<<"\n";
+                vencido=true;
+            }
+            if(confere(cartela3,i,num_sor)==25){
+                cout<<"\n"<<nome3<<" é o vencedor"<<"\n";
+                vencido=true;
+            }
+            if(confere(cartela4,i,num_sor)==25){
+                cout<<"\n"<<nome4<<" é o vencedor"<<"\n";
+                vencido=true;
+            }
+            if(confere(cartela5,i,num_sor)==25){
+                cout<<"\n"<<nome5<<" é o vencedor"<<"\n";
+                vencido=true;
+            }
+            imprime_sor(num_sor,i);
+
+            i++;
+        }
+        else{
+            cout<<"Dígito inválido\n";
+        }
+    }while(vencido==false);
 
     return 0;
 }
